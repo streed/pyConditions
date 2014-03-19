@@ -12,6 +12,12 @@ class Pre( object ):
   def between( self, name, lower, upper ):
     return between( self, name, lower, upper )
 
+  def greaterThan( self, name, lower ):
+    return greaterThan( self, name, lower )
+
+  def lessThan( self, name, upper ):
+    return lessThan( self, name, upper )
+
 class PreCondition( object ):
   def __init__( self, context, name ):
     self.context = context
@@ -63,4 +69,26 @@ class between( PreCondition ):
 
     if( not ( self.lower <= v <= self.upper ) ):
       raise PyCondition( "%s <= %s <= %s did not hold." % ( self.lower, v, self.upper ) )
+
+class greaterThan( PreCondition ):
+  def __init__( self, context, name, lower ):
+    super( greaterThan, self ).__init__( context, name )
+    self.lower = lower
+
+  def assertCondition( self, *args, **kwargs ):
+    v = args[self.argMap[self.name]]
+
+    if( not ( self.lower < v ) ):
+      raise PyCondition( "%s < %s did not hold." % ( self.lower, v ) )
+
+class lessThan( PreCondition ):
+  def __init__( self, context, name, upper ):
+    super( lessThan, self ).__init__( context, name )
+    self.upper = upper
+
+  def assertCondition( self, *args, **kwargs ):
+    v = args[self.argMap[self.name]]
+
+    if( not ( self.upper < v ) ):
+      raise PyCondition( "%s < %s did not hold." % ( self.upper, v ) )
 

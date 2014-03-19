@@ -52,3 +52,22 @@ class TestPre( unittest.TestCase ):
 
     self.assertEquals( "n2", test( "n", 2 ) )
 
+  def test_greaterThan_works_correctly( self ):
+    pre = Pre()
+
+    @pre.greaterThan( "b", 0 )
+    def test( a, b ):
+      return a / b
+
+    self.assertRaises( PyCondition, test, 1, 0 ) 
+    self.assertEquals( 1, test( 1, 1 ) )
+
+  def test_lessThan_works_correctly( self ):
+    pre = Pre()
+
+    @pre.lessThan( "b", 0 )
+    def test( a, b ):
+      return a / b
+
+    self.assertRaises( PyCondition, test, 1, 0 ) 
+    self.assertEquals( 1, test( 1, 1 ) )
