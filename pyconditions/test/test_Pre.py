@@ -70,4 +70,4 @@ class TestPre( unittest.TestCase ):
       return a / b
 
     self.assertRaises( PyCondition, test, 1, 0 ) 
-    self.assertEquals( 1, test( 1, 1 ) )
+    self.assertEquals( -1, test( 1, -1 ) )

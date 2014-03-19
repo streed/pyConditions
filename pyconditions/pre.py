@@ -89,6 +89,6 @@ class lessThan( PreCondition ):
   def assertCondition( self, *args, **kwargs ):
     v = args[self.argMap[self.name]]
 
-    if( not ( self.upper < v ) ):
-      raise PyCondition( "%s < %s did not hold." % ( self.upper, v ) )
+    if( not ( self.upper > v ) ):
+      raise PyCondition( "%s > %s did not hold." % ( self.upper, v ) )
 
