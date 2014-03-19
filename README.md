@@ -1,4 +1,4 @@
-pyConditions
+pyConditions [![Build Status](https://travis-ci.org/streed/pyConditions.png?branch=master)](https://travis-ci.org/streed/pyConditions)
 ============
 
 Guava like precondition enforcing for Python.
