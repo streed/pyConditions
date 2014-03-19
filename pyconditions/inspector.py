@@ -22,7 +22,7 @@ class Gadget:
 
   def gogoIndexes( self ):
     if( sys.hexversion >= 0x03000000 ):
-      return rr( self.fund.__code__.co_argcount )
+      return rr( self.func.__code__.co_argcount )
     else:
       return rr( self.func.func_code.co_argcount )
 
