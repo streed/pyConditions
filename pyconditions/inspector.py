@@ -1,4 +1,12 @@
 import sys
+
+rr = None
+try:
+  xrange( 0 )
+  rr = xrange
+except:
+  rr = range
+
 class Gadget:
 
   def __init__( self, func ):
@@ -14,9 +22,9 @@ class Gadget:
 
   def gogoIndexes( self ):
     if( sys.hexversion >= 0x03000000 ):
-      return xrange( self.fund.__code__.co_argcount )
+      return rr( self.fund.__code__.co_argcount )
     else:
-      return xrange( self.func.func_code.co_argcount )
+      return rr( self.func.func_code.co_argcount )
 
   def gogoMap( self ):
     names = self.gogoNames()
