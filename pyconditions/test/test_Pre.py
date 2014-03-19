@@ -50,5 +50,5 @@ class TestPre( unittest.TestCase ):
     def test( a, b ):
       return "%s%d" % ( a, b )
 
-    self.assertEquals( "n2", test( "zz", 2 ) )
+    self.assertEquals( "n2", test( "n", 2 ) )
 
