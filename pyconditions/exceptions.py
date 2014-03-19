@@ -1,0 +1,3 @@
+
+class PyCondition( Exception ):
+  pass
