@@ -12,38 +12,31 @@ class Pre( object ):
   def __init__( self ):
     self.funcTable = {}
 
-  def notNone( self, name ):
-    return notNone( self, name )
-
-  def between( self, name, lower, upper ):
-    return between( self, name, lower, upper )
-
-  def greaterThan( self, name, lower ):
-    return greaterThan( self, name, lower )
-
-  def lessThan( self, name, upper ):
-    return lessThan( self, name, upper )
-
-  def custom( self, name, check ):
-    return customCondition( self, name, check )
-
-  def instance( self, name, klass ):
-    return isInstance( self, name, klass )
-
 class PreCondition( object ):
-  def __init__( self, context, name ):
-    self.context = context
+  context = Pre()
+  def __init__( self, name ):
     self.name = name
 
   def _map( self, func ):
-    if( func.__name__ in self.context.funcTable ):
-      self.argMap = self.context.funcTable[func.__name__]
-    else:
-      self.funcName = func.__name__
-      self.gadget = Gadget( func )
-      self.argMap = self.gadget.gogoMap()
+    try:
+      func = func._original_func
+    except:
+      pass
+    gadget = Gadget( func )
+    m = gadget.gogoMap()
+    params = [ ( i, v ) for v, i in m.items() ]
+    params.sort( key=lambda a: a[0] )
+    params = [ v[1] for v in params ]
+    name = ( func.__module__, func.__name__, "( %s )" % ",".join( params ) )
+    self.funcName = "%s.%s%s" % name
 
-      self.context.funcTable[func.__name__] = self.argMap
+    if( name in self.context.funcTable ):
+      self.argMap = PreCondition.context.funcTable[name]
+    else:
+      gadget = Gadget( func )
+      self.argMap = gadget.gogoMap()
+
+      PreCondition.context.funcTable[name] = self.argMap
 
   def assertCondition( self, *args, **kwargs ):
     pass
@@ -56,23 +49,23 @@ class PreCondition( object ):
       self.assertCondition( *args, **kwargs )
       return func( *args, **kwargs )
 
-    wrapper.func = func
+    wrapper._original_func = func
 
     return wrapper
 
-class notNone( PreCondition ):
+class NotNone( PreCondition ):
 
-  def __init__( self, context, name ):
-    super( notNone, self ).__init__( context, name )
+  def __init__( self, name ):
+    super( NotNone, self ).__init__( name )
     self.name = name
 
   def assertCondition( self, *args, **kwargs ):
       if( args[self.argMap[self.name]] == None ):
         raise PyCondition( "%s is None in %s" % ( self.name, self.funcName ) )
 
-class between( PreCondition ):
-  def __init__( self, context, name, lower, upper ):
-    super( between, self ).__init__(  context, name )
+class Between( PreCondition ):
+  def __init__( self, name, lower, upper ):
+    super( Between, self ).__init__(  name )
     self.lower = lower
     self.upper = upper
 
@@ -82,9 +75,9 @@ class between( PreCondition ):
     if( not ( self.lower <= v <= self.upper ) ):
       raise PyCondition( "%s <= %s <= %s did not hold in %s" % ( self.lower, v, self.upper, self.name ) )
 
-class greaterThan( PreCondition ):
-  def __init__( self, context, name, lower ):
-    super( greaterThan, self ).__init__( context, name )
+class GreaterThan( PreCondition ):
+  def __init__( self, name, lower ):
+    super( GreaterThan, self ).__init__( name )
     self.lower = lower
 
   def assertCondition( self, *args, **kwargs ):
@@ -93,9 +86,9 @@ class greaterThan( PreCondition ):
     if( not ( self.lower < v ) ):
       raise PyCondition( "%s < %s did not hold in %s" % ( self.lower, v, self.name ) )
 
-class lessThan( PreCondition ):
-  def __init__( self, context, name, upper ):
-    super( lessThan, self ).__init__( context, name )
+class LessThan( PreCondition ):
+  def __init__( self, name, upper ):
+    super( LessThan, self ).__init__( name )
     self.upper = upper
 
   def assertCondition( self, *args, **kwargs ):
@@ -104,9 +97,9 @@ class lessThan( PreCondition ):
     if( not ( self.upper > v ) ):
       raise PyCondition( "%s > %s did not hold %s" % ( self.upper, v, self.name ) )
 
-class customCondition( PreCondition ):
-  def __init__( self, context, name, check ):
-    super( customCondition, self ).__init__( context, name ) 
+class Custom( PreCondition ):
+  def __init__( self, name, check ):
+    super( Custom, self ).__init__( name ) 
     self.check = check
 
   def assertCondition( self, *args, **kwargs ):
@@ -115,9 +108,9 @@ class customCondition( PreCondition ):
     if( not self.check( v ) ):
       raise PyCondition( "%s did not pass the custom condition in %s" % ( v, self.name ) )
 
-class isInstance( PreCondition ):
-  def __init__( self, context, name, klass ):
-    super( isInstance, self ).__init__( context, name )
+class Instance( PreCondition ):
+  def __init__( self, name, klass ):
+    super( Instance, self ).__init__( name )
     self.klass = klass
 
   def assertCondition( self, *args, **kwargs ):

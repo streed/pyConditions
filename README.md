@@ -6,19 +6,18 @@ Commenting sucks so let your code do it for you with preconditions that actually
 Examples:
 
 ```python
-pre = Pre()
-@pre.between( "b", 1, 10 )
+@Between( "b", 1, 10 )
 def divideAbyB( a, b )
 
-@pre.notNone( "a" )
-@pre.between( "a", "a", "n" )
-@pre.notNone( "b" )
-@pre.between( "b", "n", "z" )
+@NotNone( "a" )
+@Between( "a", "a", "n" )
+@NotNone( "b" )
+@Between( "b", "n", "z" )
 def concat( a, b ):
   return a + b
   
-@pre.custom( "a", lambda x: x % 2 == 0 )
-@pre.custom( "b", lambda x: not x % == 0 )
+@Custom( "a", lambda x: x % 2 == 0 )
+@Custom( "b", lambda x: not x % == 0 )
 def evenOdd( a, b ):
   return a * b
 ```

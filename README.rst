@@ -28,10 +28,9 @@ Simply becomes the following:
 
 .. code:: python
 
-  from pyconditions.pre import Pre
-  pre = Pre()
+  from pyconditions.pre import Between
 
-  @pre.between( "b", 1, 10 )
+  @Between( "b", 1, 10 )
   def divideAbyB( a, b )
     return a / b
 
@@ -43,13 +42,13 @@ More Examples:
 
 .. code:: python
 
-  from pyconditions.pre import Pre
+  from pyconditions.pre import Between, NotNone
   pre = Pre()
 
-  @pre.notNone( "a" )
-  @pre.between( "a", "a", "n" )
-  @pre.notNone( "b" )
-  @pre.between( "b", "n", "z" )
+  @NotNone( "a" )
+  @Between( "a", "a", "n" )
+  @NotNone( "b" )
+  @Between( "b", "n", "z" )
   def concat( a, b ):
     return a + b
 
@@ -59,13 +58,12 @@ that *a* is between ( ?a?, ?n? ) inclusively and *b* is between ( ?n?,
 
 .. code:: python
 
-    from pyconditions.pre import Pre
-    pre = Pre()
+    from pyconditions.pre import Custom
 
     BASES = [ 2, 3, 4 ]
 
-    @pre.custom( a, lambda x: x in BASES )
-    @pre.custom( b, lambda x: x % 2 == 0 )
+    @Custom( a, lambda x: x in BASES )
+    @Custom( b, lambda x: x % 2 == 0 )
     def weirdMethod( a, b ):
         return a ** b
 
