@@ -9,5 +9,5 @@ setup(
     url='http://github.com/streed/pyConditions',
     license='LICENSE.txt',
     description='Guava Preconditions in Python.',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
 )
