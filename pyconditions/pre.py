@@ -53,7 +53,7 @@ class NotNone( PreCondition ):
 
   def assertCondition( self, *args, **kwargs ):
       if( args[self.argMap[self.name]] == None ):
-        raise PyCondition( "%s is None in %s" % ( self.name, self.funcName ) )
+        raise PyCondition( "%s is None in function %s" % ( self.name, self.funcName ) )
 
 class Between( PreCondition ):
   def __init__( self, name, lower, upper ):
@@ -65,7 +65,7 @@ class Between( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.lower <= v <= self.upper ) ):
-      raise PyCondition( "%s <= %s <= %s did not hold in %s" % ( self.lower, v, self.upper, self.name ) )
+      raise PyCondition( "%s <= %s <= %s did not hold for parameter %s in function %s" % ( self.lower, v, self.upper, self.name, self.funcName ) )
 
 class GreaterThan( PreCondition ):
   def __init__( self, name, lower ):
@@ -76,7 +76,7 @@ class GreaterThan( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.lower < v ) ):
-      raise PyCondition( "%s < %s did not hold in %s" % ( self.lower, v, self.name ) )
+      raise PyCondition( "%s > %s did not hold for parameter %s in function %s" % ( v, self.lower, self.name, self.funcName ) )
 
 class LessThan( PreCondition ):
   def __init__( self, name, upper ):
@@ -87,7 +87,7 @@ class LessThan( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.upper > v ) ):
-      raise PyCondition( "%s > %s did not hold %s" % ( self.upper, v, self.name ) )
+      raise PyCondition( "%s < %s did not hold for parameter %s in function %s" % ( v, self.upper, self.name, self.funcName ) )
 
 class Custom( PreCondition ):
   def __init__( self, name, check ):
@@ -98,7 +98,7 @@ class Custom( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not self.check( v ) ):
-      raise PyCondition( "%s did not pass the custom condition in %s" % ( v, self.name ) )
+      raise PyCondition( "%s did not hold for the parameter %s in the custom condition in function  %s" % ( v, self.name, self.funcName ) )
 
 class Instance( PreCondition ):
   def __init__( self, name, klass ):
@@ -109,5 +109,5 @@ class Instance( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not isinstance( v, self.klass ) ):
-      raise PyCondition( "%s is not a %s in %s" % ( v, self.klass, self.name ) )
+      raise PyCondition( "%s is not a %s for parameter %s in function %s" % ( v, self.klass, self.name, self.funcName ) )
 
