@@ -27,6 +27,9 @@ class Pre( object ):
   def custom( self, name, check ):
     return customCondition( self, name, check )
 
+  def instance( self, name, klass ):
+    return isInstance( self, name, klass )
+
 class PreCondition( object ):
   def __init__( self, context, name ):
     self.context = context
@@ -111,4 +114,15 @@ class customCondition( PreCondition ):
 
     if( not self.check( v ) ):
       raise PyCondition( "%s did not pass the custom condition in %s" % ( v, self.name ) )
+
+class isInstance( PreCondition ):
+  def __init__( self, context, name, klass ):
+    super( isInstance, self ).__init__( context, name )
+    self.klass = klass
+
+  def assertCondition( self, *args, **kwargs ):
+    v = args[self.argMap[self.name]]
+
+    if( not isinstance( v, self.klass ) ):
+      raise PyCondition( "%s is not a %s in %s" % ( v, self.klass, self.name ) )
 

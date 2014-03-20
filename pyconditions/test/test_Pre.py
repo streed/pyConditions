@@ -82,3 +82,12 @@ class TestPre( unittest.TestCase ):
     self.assertRaises( PyCondition, test, 11 )
     self.assertEquals( 5, test( 5 ) )
 
+  def test_instance_works( self ):
+    pre = Pre()
+
+    @pre.instance( "a", int )
+    def test( a ):
+      return a
+
+    self.assertRaises( PyCondition, test, "a" )
+    self.assertEquals( 10, test( 10 ) )
