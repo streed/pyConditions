@@ -18,6 +18,9 @@ class Pre( object ):
   def lessThan( self, name, upper ):
     return lessThan( self, name, upper )
 
+  def custom( self, name, check ):
+    return customCondition( self, name, check )
+
 class PreCondition( object ):
   def __init__( self, context, name ):
     self.context = context
@@ -68,7 +71,7 @@ class between( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.lower <= v <= self.upper ) ):
-      raise PyCondition( "%s <= %s <= %s did not hold." % ( self.lower, v, self.upper ) )
+      raise PyCondition( "%s <= %s <= %s did not hold in %s" % ( self.lower, v, self.upper, self.name ) )
 
 class greaterThan( PreCondition ):
   def __init__( self, context, name, lower ):
@@ -79,7 +82,7 @@ class greaterThan( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.lower < v ) ):
-      raise PyCondition( "%s < %s did not hold." % ( self.lower, v ) )
+      raise PyCondition( "%s < %s did not hold in %s" % ( self.lower, v, self.name ) )
 
 class lessThan( PreCondition ):
   def __init__( self, context, name, upper ):
@@ -90,5 +93,16 @@ class lessThan( PreCondition ):
     v = args[self.argMap[self.name]]
 
     if( not ( self.upper > v ) ):
-      raise PyCondition( "%s > %s did not hold." % ( self.upper, v ) )
+      raise PyCondition( "%s > %s did not hold %s" % ( self.upper, v, self.name ) )
+
+class customCondition( PreCondition ):
+  def __init__( self, context, name, check ):
+    super( customCondition, self ).__init__( context, name ) 
+    self.check = check
+
+  def assertCondition( self, *args, **kwargs ):
+    v = args[self.argMap[self.name]]
+
+    if( not self.check( v ) ):
+      raise PyCondition( "%s did not pass the custom condition in %s" % ( v, self.name ) )
 

@@ -71,3 +71,14 @@ class TestPre( unittest.TestCase ):
 
     self.assertRaises( PyCondition, test, 1, 0 ) 
     self.assertEquals( -1, test( 1, -1 ) )
+
+  def test_custom_works( self ):
+    pre = Pre()
+
+    @pre.custom( "a", lambda a: 0 <= a <= 10 )
+    def test( a ):
+      return a
+
+    self.assertRaises( PyCondition, test, 11 )
+    self.assertEquals( 5, test( 5 ) )
+
