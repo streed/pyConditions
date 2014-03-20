@@ -18,9 +18,7 @@ class PreCondition( object ):
       pass
     gadget = Gadget( func )
     m = gadget.gogoMap()
-    params = [ ( i, v ) for v, i in m.items() ]
-    params.sort( key=lambda a: a[0] )
-    params = [ v[1] for v in params ]
+    params = [ v[1] for v in sorted( [ ( i, vv ) for vv, i in m.items() ], key=lambda a: a[0] ) ]
     name = ( func.__module__, func.__name__, "( %s )" % ",".join( params ) )
     self.funcName = "%s.%s%s" % name
 
