@@ -1,4 +1,4 @@
-pyConditions |Build Status|
+pyConditions
 ===========================
 
 Guava like precondition enforcing for Python.
