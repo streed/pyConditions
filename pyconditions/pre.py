@@ -3,6 +3,12 @@ from .inspector import  Gadget
 from .exceptions import PyCondition
 
 class Pre( object ):
+  """
+    Pre is simply a constructor of the decorators but it is also
+    the context itself. Only one context is required per file.
+
+    TODO: Remove the need to create this at all. Maybe key __file__.<func_name>?
+  """
   def __init__( self ):
     self.funcTable = {}
 

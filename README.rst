@@ -71,4 +71,3 @@ that *a* is between ( ?a?, ?n? ) inclusively and *b* is between ( ?n?,
 
 Using the custom precondition you are able to pass in any function that receives a single parameter and perform whatever condition checking you need.
 
-.. |Build Status| image:: https://travis-ci.org/streed/pyConditions.png?branch=master :target: https://travis-ci.org/streed/pyConditions
