@@ -1,21 +1,14 @@
 pyConditions [![Build Status](https://travis-ci.org/streed/pyConditions.png?branch=master)](https://travis-ci.org/streed/pyConditions)
 ============
 
-Guava like precondition enforcing for Python.
+Commenting sucks so let your code do it for you with preconditions that actually do something.
 
-An Example:
+Examples:
+
 ```python
 pre = Pre()
 @pre.between( "b", 1, 10 )
 def divideAbyB( a, b )
-  return a / b
-```
-
-In the above example the precondition _pre.between_ ensures that the _b_ variable is between (1, 10) inclusive. If it is not then a _PyCondition_ exception is thrown with the error message detailing what went wrong.
-
-More Examples:
-```python
-pre = Pre()
 
 @pre.notNone( "a" )
 @pre.between( "a", "a", "n" )
@@ -23,6 +16,16 @@ pre = Pre()
 @pre.between( "b", "n", "z" )
 def concat( a, b ):
   return a + b
+  
+@pre.custom( "a", lambda x: x % 2 == 0 )
+@pre.custom( "b", lambda x: not x % == 0 )
+def evenOdd( a, b ):
+  return a * b
 ```
 
-The above ensures that the variables _a_ and _b_ are never _None_ and that _a_ is between ( "a", "n" ) inclusively and _b_ is between ( "n", "z" ) inclusively.
+The documenting is there with the code it self, and if you violate the preconditions then a
+_PyCondition_ exception is thrown with a much nicer error message than broken code.
+
+
+Have conditions you want added? Open a PR with code.
+Have an issue? Open a PR with fixed code.
