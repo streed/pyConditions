@@ -9,6 +9,7 @@ Examples:
 pre = Pre()
 @pre.between( "b", 1, 10 )
 def divideAbyB( a, b )
+  return a / b
 
 @pre.notNone( "a" )
 @pre.between( "a", "a", "n" )
