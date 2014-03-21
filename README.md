@@ -6,6 +6,8 @@ Commenting sucks so let your code do it for you with preconditions that actually
 Examples:
 
 ```python
+from pyconditions.pre import *
+
 @Between( "b", 1, 10 )
 def divideAbyB( a, b )
   return a / b
