@@ -11,7 +11,7 @@ class TestInvariant( unittest.TestCase ):
       pass
 
     self.assertEquals( InvariantMeta, Test.__metaclass__ )
-    self.assertEquals( [ "test2", "test" ], [ i[0] for i in Test.__invariant__ ] )
+    self.assertEquals( [ "test2", "test" ], [ i.name for i in Test.__invariant__ ] )
 
   def test_Invariant_properly_wraps_each_method( self ):
     @NoopInvariant( "test" )

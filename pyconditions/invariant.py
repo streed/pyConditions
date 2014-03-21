@@ -6,8 +6,8 @@ def wrap_method( func ):
     ret = func( *args, **kwargs )
 
     for invariant in args[0].__invariant__:
-      if( not invariant[1]( args[0] ) ):
-        raise PyCondition( "Invariant %s did not hold for %s" % ( invariant[0], args[0] ) )
+      if( not invariant.assertInvariant( args[0] ) ):
+        raise PyCondition( "Invariant %s did not hold for %s" % ( invariant.name, args[0] ) )
 
     return ret
 
@@ -31,7 +31,7 @@ class Invariant( object ):
 
     if( not hasattr( klass, "__invariant__" ) ):
       dct["__invariant__"] = []
-    dct["__invariant__"].append( ( self.name, self.condition, ) )
+    dct["__invariant__"].append( self )
     dct["__metaclass__"] = InvariantMeta
 
     t = InvariantMeta( klass.__name__, klass.__bases__, dct )
@@ -45,4 +45,4 @@ class NoopInvariant( Invariant ):
     self.condition = lambda a: True
 
   def assertInvariant( self, s ):
-    return self.condition( s )
+    return True
