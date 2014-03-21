@@ -34,5 +34,37 @@ evenOdd( 3, 1 )
 
     pyconditions.exceptions.PyCondition: 3 did not pass the custom condition for parameter 'a' in function evenOdd
 
+How about some postconditions?
+
+```python
+from pyconditions.post import *
+
+@NotNone()
+def test( a ):
+  return a
+
+@Custom( lambda a: a % 2 == 0 )
+def even( a ):
+  return a
+```
+
+```python
+test( None )
+```
+
+    pyconditions.exception.PyCondition: The return value for uber.awesome.project.test was None 
+
+You can also mix the two as well.
+
+```python
+from pyconditions import pre
+from pyconditions import post
+
+@pre.Custom( "a", lamda a: a % 2 == 0 )
+@post.Custom( lambda a: a % 2 == 0 )
+def superSafeEven( a ):
+  return a
+```
+
 Have conditions you want added? Open a PR with code.
 Have an issue? Open a PR with fixed code.
