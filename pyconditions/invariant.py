@@ -32,7 +32,6 @@ class Invariant( object ):
     if( not hasattr( klass, "__invariant__" ) ):
       dct["__invariant__"] = []
     dct["__invariant__"].append( self )
-    dct["__metaclass__"] = InvariantMeta
 
     t = InvariantMeta( klass.__name__, klass.__bases__, dct )
 
