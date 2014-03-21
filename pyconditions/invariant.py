@@ -11,6 +11,8 @@ def wrap_method( func ):
 
     return ret
 
+  wrapper.is_wrapped = True
+
   return wrapper
 
 class InvariantMeta( type, object ):

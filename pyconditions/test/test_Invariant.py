@@ -10,7 +10,6 @@ class TestInvariant( unittest.TestCase ):
     class Test( object ):
       pass
 
-    self.assertEquals( InvariantMeta, Test.__metaclass__ )
     self.assertEquals( [ "test2", "test" ], [ i.name for i in Test.__invariant__ ] )
 
   def test_Invariant_properly_wraps_each_method( self ):
@@ -19,6 +18,14 @@ class TestInvariant( unittest.TestCase ):
       def test( self ):
         pass
 
-    t = Test()
+      def test2( self ):
+        pass
 
-    t.test()
+      def testing( self, a, b ):
+        pass
+
+    t = Test()
+  
+    self.assertTrue( t.test.is_wrapped )
+    self.assertTrue( t.test2.is_wrapped )
+    self.assertTrue( t.testing.is_wrapped )
