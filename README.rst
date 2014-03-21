@@ -43,7 +43,6 @@ More Examples:
 .. code:: python
 
   from pyconditions.pre import Between, NotNone
-  pre = Pre()
 
   @NotNone( "a" )
   @Between( "a", "a", "n" )
@@ -53,8 +52,8 @@ More Examples:
     return a + b
 
 The above ensures that the variables *a* and *b* are never *None* and
-that *a* is between ( ?a?, ?n? ) inclusively and *b* is between ( ?n?,
-?z? ) inclusively.
+that *a* is between ( "a", "n" ) inclusively and *b* is between ( "n",
+"z" ) inclusively.
 
 .. code:: python
 
