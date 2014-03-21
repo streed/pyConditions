@@ -1,70 +1,79 @@
-pyConditions
+pyConditions |Build Status|
 ===========================
 
-Guava like precondition enforcing for Python.
+Commenting sucks so let your code do it for you with preconditions that
+actually do something.
 
-Has been tested against:
-
-- 2.6
-- 2.7
-- 3.2
-- 3.3
-- pypy
-
-Decorate functions with preconditions so that your code documents itself and at the same time
-removes the boilerplate code that is typically required when checking parameters.
-
-An Example:
+Examples:
 
 .. code:: python
 
-  def divideAby1or10( a, b ):
-      if not ( 1 <= b <= 10 ):
-          <raise some error>
-      else:
-          return a / b
+    from pyconditions.pre import *
 
-Simply becomes the following:
+    @Between( "b", 1, 10 )
+    def divideAbyB( a, b )
+      return a / b
 
-.. code:: python
+    @NotNone( "a" )
+    @Between( "a", "a", "n" )
+    @NotNone( "b" )
+    @Between( "b", "n", "z" )
+    def concat( a, b ):
+      return a + b
+      
+    @Custom( "a", lambda x: x % 2 == 0 )
+    @Custom( "b", lambda x: not x % 2 == 0 )
+    def evenOdd( a, b ):
+      return a * b
 
-  from pyconditions.pre import Between
-
-  @Between( "b", 1, 10 )
-  def divideAbyB( a, b )
-    return a / b
-
-In the above example the precondition *pre.between* ensures that the *b*
-variable is between (1, 10) inclusive. If it is not then a *PyCondition*
-exception is thrown with the error message detailing what went wrong.
-
-More Examples:
-
-.. code:: python
-
-  from pyconditions.pre import Between, NotNone
-
-  @NotNone( "a" )
-  @Between( "a", "a", "n" )
-  @NotNone( "b" )
-  @Between( "b", "n", "z" )
-  def concat( a, b ):
-    return a + b
-
-The above ensures that the variables *a* and *b* are never *None* and
-that *a* is between ( "a", "n" ) inclusively and *b* is between ( "n",
-"z" ) inclusively.
+The documenting is there with the code it self, and if you violate the
+preconditions then a *PyCondition* exception is thrown with a much nicer
+error message than broken code.
 
 .. code:: python
 
-    from pyconditions.pre import Custom
+    evenOdd( 3, 1 )
 
-    BASES = [ 2, 3, 4 ]
+::
 
-    @Custom( a, lambda x: x in BASES )
-    @Custom( b, lambda x: x % 2 == 0 )
-    def weirdMethod( a, b ):
-        return a ** b
+    pyconditions.exceptions.PyCondition: 3 did not pass the custom condition for parameter 'a' in function evenOdd
 
-Using the custom precondition you are able to pass in any function that receives a single parameter and perform whatever condition checking you need.
+How about some postconditions?
 
+.. code:: python
+
+    from pyconditions.post import *
+
+    @NotNone()
+    def test( a ):
+      return a
+
+    @Custom( lambda a: a % 2 == 0 )
+    def even( a ):
+      return a
+
+.. code:: python
+
+    test( None )
+
+::
+
+    pyconditions.exception.PyCondition: The return value for uber.awesome.project.test was None 
+
+You can also mix the two as well.
+
+.. code:: python
+
+    from pyconditions import pre
+    from pyconditions import post
+
+    @pre.Custom( "a", lamda a: a % 2 == 0 )
+    @post.Custom( lambda a: a % 2 == 0 )
+    def superSafeEven( a ):
+      return a
+
+Have conditions you want added? Open a PR with code. Have an issue? Open
+a PR with fixed code.
+
+.. |Build Status| image:: https://travis-ci.org/streed/pyConditions.png?branch=master
+   :target: https://travis-ci.org/streed/pyConditions
