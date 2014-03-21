@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='pyConditions',
-    version='0.2.0',
+    version='0.2.1',
     author='Sean Reed',
     author_email='streed@mail.roanoke.edu',
     packages=['pyconditions', 'pyconditions.test'],
