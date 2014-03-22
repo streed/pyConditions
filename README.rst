@@ -1,5 +1,7 @@
-pyConditions |Build Status|
+pyConditions
 ===========================
+
+|Build Status|
 
 Commenting sucks so let your code do it for you with preconditions that
 actually do something.
@@ -72,8 +74,34 @@ You can also mix the two as well.
     def superSafeEven( a ):
       return a
 
-Have conditions you want added? Open a PR with code. Have an issue? Open
-a PR with fixed code.
+Want some class invariant shenanigans?
+
+.. code:: python
+
+    from pyconditions.invariant import Invariant, FieldsNotNone
+    @FieldsNotNone( [ "test" ] )
+    class Test:
+        def __init__( self ):
+                self.test = 1
+        def add( self ):
+                return self.test + 1
+        def set( self, v ):
+                self.test = v
+
+    t = Test()
+    print t.add()
+    t.set( None )
+
+That last call to *add* will cause the invariant to fail and thus throw
+the following:
+
+::
+
+    pyconditions.exceptions.PyCondition: Field "test" was None when it should not have been in invariant "notNone"
+
+Have conditions you want added? Open a PR with code.
+
+Have an issue? Open a PR with fixed code.
 
 .. |Build Status| image:: https://travis-ci.org/streed/pyConditions.png?branch=master
    :target: https://travis-ci.org/streed/pyConditions
