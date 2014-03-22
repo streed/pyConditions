@@ -41,7 +41,7 @@ class Invariant( object ):
     return t
 
 class NoopInvariant( Invariant ):
-  def __init__( self, name ):
+  def __init__( self ):
     super( NoopInvariant, self ).__init__()
 
     self.condition = lambda a: True
@@ -50,7 +50,7 @@ class NoopInvariant( Invariant ):
     return True
 
 class FieldsNotNone( Invariant ):
-  def __init__( self, name, fields ):
+  def __init__( self, fields ):
     super( FieldsNotNone, self ).__init__()
 
     self.fields = fields

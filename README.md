@@ -70,7 +70,7 @@ Want some class invariant shenanigans?
 
 ```python
 from pyconditions.invariant import Invariant, FieldsNotNone
-@FieldsNotNone( "notNone", [ "test" ] )
+@FieldsNotNone( [ "test" ] )
 class Test:
     def __init__( self ):
             self.test = 1
@@ -89,4 +89,5 @@ That last call to _add_ will cause the invariant to fail and thus throw the foll
     pyconditions.exceptions.PyCondition: Field "test" was None when it should not have been in invariant "notNone"
 
 Have conditions you want added? Open a PR with code.
+
 Have an issue? Open a PR with fixed code.
