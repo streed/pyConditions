@@ -25,11 +25,11 @@ class InvariantMeta( type, object ):
     return super( InvariantMeta, cls).__new__( cls, name, bases, attrs)
 
 class Invariant( object ):
-  def __init__( self, name ):
-    self.name = name
+  def __init__( self ):
     self.condition = lambda a: True
 
   def __call__( self, klass ):
+    self.name = "%s.%s" % ( klass.__module__, klass.__name__ )
     dct = dict( klass.__dict__ )
 
     if( not hasattr( klass, "__invariant__" ) ):
@@ -42,7 +42,7 @@ class Invariant( object ):
 
 class NoopInvariant( Invariant ):
   def __init__( self, name ):
-    super( NoopInvariant, self ).__init__( name )
+    super( NoopInvariant, self ).__init__()
 
     self.condition = lambda a: True
 
@@ -51,7 +51,7 @@ class NoopInvariant( Invariant ):
 
 class FieldsNotNone( Invariant ):
   def __init__( self, name, fields ):
-    super( FieldsNotNone, self ).__init__( name )
+    super( FieldsNotNone, self ).__init__()
 
     self.fields = fields
  
