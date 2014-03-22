@@ -1,6 +1,7 @@
 import unittest
 
-from ..invariant import Invariant, NoopInvariant, InvariantMeta
+from ..exceptions import PyCondition
+from ..invariant import Invariant, NoopInvariant, FieldsNotNone, InvariantMeta
 
 class TestInvariant( unittest.TestCase ):
 
@@ -29,3 +30,23 @@ class TestInvariant( unittest.TestCase ):
     self.assertTrue( t.test.is_wrapped )
     self.assertTrue( t.test2.is_wrapped )
     self.assertTrue( t.testing.is_wrapped )
+
+  def test_FieldsNotNone( self ):
+    @FieldsNotNone( "notNone", [ "test", "test2" ] )
+    class Test( object ):
+      def __init__( self ):
+        self.test = 1
+        self.test2 = 2
+
+      def test3( self ):
+        pass
+
+    t = Test()
+    t.test = None
+
+    self.assertRaises( PyCondition, t.test3 )
+
+    t.test = 1
+    t.test2 = None
+
+    self.assertRaises( PyCondition, t.test3 )

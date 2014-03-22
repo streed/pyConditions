@@ -5,10 +5,12 @@ setup.py
 pyconditions/__init__.py
 pyconditions/exceptions.py
 pyconditions/inspector.py
+pyconditions/invariant.py
 pyconditions/post.py
 pyconditions/pre.py
 pyconditions/test/__init__.py
 pyconditions/test/test_Both.py
 pyconditions/test/test_Gadget.py
+pyconditions/test/test_Invariant.py
 pyconditions/test/test_Post.py
 pyconditions/test/test_Pre.py

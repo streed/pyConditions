@@ -1,13 +1,14 @@
 from functools import wraps
 
+from .exceptions import PyCondition
+
 def wrap_method( func ):
   @wraps( func )
   def wrapper( *args, **kwargs ):
     ret = func( *args, **kwargs )
 
     for invariant in args[0].__invariant__:
-      if( not invariant.assertInvariant( args[0] ) ):
-        raise PyCondition( "Invariant %s did not hold for %s" % ( invariant.name, args[0] ) )
+      invariant.assertInvariant( args[0] )
 
     return ret
 
@@ -47,3 +48,17 @@ class NoopInvariant( Invariant ):
 
   def assertInvariant( self, s ):
     return True
+
+class FieldsNotNone( Invariant ):
+  def __init__( self, name, fields ):
+    super( FieldsNotNone, self ).__init__( name )
+
+    self.fields = fields
+ 
+  def assertInvariant( self, s ):
+    for f in self.fields:
+      if( getattr( s, f ) == None ):
+        raise PyCondition( "Field \"%s\" was None when it should not have been in invariant \"%s\"" % ( f, self.name ) )
+
+    return True
+
