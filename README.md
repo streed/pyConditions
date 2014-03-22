@@ -66,5 +66,27 @@ def superSafeEven( a ):
   return a
 ```
 
+Want some class invariant shenanigans?
+
+```python
+from pyconditions.invariant import Invariant, FieldsNotNone
+@FieldsNotNone( "notNone", [ "test" ] )
+class Test:
+    def __init__( self ):
+            self.test = 1
+    def add( self ):
+            return self.test + 1
+    def set( self, v ):
+            self.test = v
+
+t = Test()
+print t.add()
+t.set( None )
+```
+
+That last call to _add_ will cause the invariant to fail and thus throw the following:
+
+    pyconditions.exceptions.PyCondition: Field "test" was None when it should not have been in invariant "notNone"
+
 Have conditions you want added? Open a PR with code.
 Have an issue? Open a PR with fixed code.
