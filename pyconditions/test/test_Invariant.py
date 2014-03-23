@@ -1,7 +1,7 @@
 import unittest
 
 from ..exceptions import PyCondition
-from ..invariant import Invariant, NoopInvariant, FieldsNotNone, InvariantMeta
+from ..invariant import *
 
 class TestInvariant( unittest.TestCase ):
 
@@ -50,3 +50,19 @@ class TestInvariant( unittest.TestCase ):
     t.test2 = None
 
     self.assertRaises( PyCondition, t.test3 )
+
+  def test_CustomInvariant( self ):
+    def invariant( self ):
+      return self.test == 1
+
+    @CustomInvariant( "test", invariant )
+    class Test( object ):
+      def __init__( self ):
+        self.test = 1
+
+      def test2( self ):
+        self.test = 2
+
+    t = Test()
+
+    self.assertRaises( PyCondition, t.test2 )

@@ -60,5 +60,14 @@ class FieldsNotNone( Invariant ):
       if( getattr( s, f ) == None ):
         raise PyCondition( "Field \"%s\" was None when it should not have been in invariant \"%s\"" % ( f, self.name ) )
 
-    return True
+class CustomInvariant( Invariant ):
+  def __init__( self, name, condition ):
+    super( CustomInvariant, self ).__init__()
+
+    self.name = name
+    self.condition = condition
+
+  def assertInvariant( self, s ):
+    if( not self.condition( s ) ):
+      raise PyCondition( "The Custom invariant for \"%s\" did not hold." % self.name )
 
