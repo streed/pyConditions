@@ -99,6 +99,21 @@ the following:
 
     pyconditions.exceptions.PyCondition: Field "test" was None when it should not have been in invariant "notNone"
 
+Need a custom invariant?
+
+.. code:: python
+
+    from pyconditions.invariant import CustomInvariant
+    def invariant( self ):
+       return self.test == 1 
+
+    @CustomInvariant( "test", invariant )
+    class Test( object ):
+       def __init__( self ):
+               self.test = 1
+       def method1( self ):
+               self.test
+
 Have conditions you want added? Open a PR with code.
 
 Have an issue? Open a PR with fixed code.
