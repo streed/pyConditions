@@ -112,7 +112,7 @@ Need a custom invariant?
        def __init__( self ):
                self.test = 1
        def method1( self ):
-               self.test
+               self.test = 2
 
 Have conditions you want added? Open a PR with code.
 
