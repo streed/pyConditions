@@ -1,6 +1,6 @@
 import unittest
 
-from ..exceptions import PyCondition
+from ..exceptions import PyCondition, PyConditionError
 from ..invariant import *
 
 class TestInvariant( unittest.TestCase ):
@@ -66,3 +66,11 @@ class TestInvariant( unittest.TestCase ):
     t = Test()
 
     self.assertRaises( PyCondition, t.test2 )
+
+  def test_Invariant_cannot_be_applied_to_non_classes( self ):
+    def test():
+      @FieldsNotNone( [ "test" ] )
+      def testing():
+        pass
+
+    self.assertRaises( PyConditionError, test )
