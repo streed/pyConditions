@@ -2,6 +2,7 @@ import inspect
 from functools import wraps
 
 from .exceptions import PyCondition, PyConditionError
+from .stage import stage
 
 def wrap_method( func ):
   """
@@ -12,8 +13,9 @@ def wrap_method( func ):
   def wrapper( *args, **kwargs ):
     ret = func( *args, **kwargs )
 
-    for invariant in args[0].__invariant__:
-      invariant.assertInvariant( args[0] )
+    if( stage.name == "Dev" ):
+      for invariant in args[0].__invariant__:
+        invariant.assertInvariant( args[0] )
 
     return ret
 

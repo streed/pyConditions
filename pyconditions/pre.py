@@ -1,6 +1,7 @@
 from functools import wraps
 from .inspector import  Gadget
-from .exceptions import PyCondition
+from .exceptions import PyCondition, PyConditionError
+from .stage import stage
 
 class Pre( object ):
   def __init__( self ):
@@ -34,14 +35,19 @@ class PreCondition( object ):
     pass
 
   def __call__( self, func ):
-    self._map( func )
-    
-    @wraps( func )
-    def wrapper( *args, **kwargs ):
-      self.assertCondition( *args, **kwargs )
-      return func( *args, **kwargs )
+    if( stage.name == "Dev" ):
+      self._map( func )
+      
+      @wraps( func )
+      def wrapper( *args, **kwargs ):
+        self.assertCondition( *args, **kwargs )
+        return func( *args, **kwargs )
 
-    wrapper._original_func = func
+      wrapper._original_func = func
+    elif( stage.name == "Prod" ):
+      wrapper = func
+    else:
+      raise PyConditionError( "Invalid Stage: %s" % stage.name )
 
     return wrapper
 
