@@ -103,6 +103,19 @@ class Test( object ):
            self.test
 ```
 
+This is great but the conditions slow my code down a lot? No problem.
+
+```python
+from pyconditions.stage import Stage
+
+stage = Stage()
+stage.prod()
+
+```
+
+Just set that somewhere in your code and you'll be fine. There is still some overhead, mainly there will be two function calls for each method, the wrapper and the original function.
+But, for stacked Preconditions and Invariants it will not execute into the other conditions and invraiants when _prod_ is called. If you want to go back to _Dev_ then call _dev()_.
+
 Have conditions you want added? Open a PR with code.
 
 Have an issue? Open a PR with fixed code.
