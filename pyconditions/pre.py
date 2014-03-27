@@ -1,7 +1,8 @@
 from functools import wraps
 from .inspector import  Gadget
 from .exceptions import PyCondition, PyConditionError
-from .stage import stage
+
+import pyconditions.stage 
 
 class Pre( object ):
   def __init__( self ):
@@ -35,7 +36,8 @@ class PreCondition( object ):
     pass
 
   def __call__( self, func ):
-    if( stage.name == "Dev" ):
+    wrapper = func
+    if( pyconditions.stage.name == "Dev" ):
       self._map( func )
       
       @wraps( func )
@@ -44,10 +46,10 @@ class PreCondition( object ):
         return func( *args, **kwargs )
 
       wrapper._original_func = func
-    elif( stage.name == "Prod" ):
+    elif( pyconditions.stage.name == "Prod" ):
       wrapper = func
     else:
-      raise PyConditionError( "Invalid Stage: %s" % stage.name )
+      raise PyConditionError( "Invalid Stage: %s" % pyconditions.stage.name )
 
     return wrapper
 

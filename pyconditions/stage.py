@@ -1,17 +1,22 @@
 
+name = "None"
+
 class Stage( object ):
-  name = "None"
   def __init__( self ):
     pass
 
 class Development( Stage ):
   def __init__( self ):
+    global name
     super( Development, self ).__init__()
-    Development.name = "Dev"
+    name = "Dev"
 
 class Production( Stage ):
   def __init__( self ):
+    global name
     super( Production, self ).__init__()
-    Production.name = "Prod"
+    name = "Prod"
 
 stage = Development()
+
+print name

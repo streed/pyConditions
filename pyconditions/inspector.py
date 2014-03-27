@@ -19,6 +19,8 @@ class Gadget:
     self._varnames = None
     self._argcounts = None
     self._map = None
+    self.name = func.__name__
+    self.module = func.__module__
 
   def gogoNames( self ):
     """
