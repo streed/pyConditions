@@ -1,22 +1,23 @@
-
-name = "None"
+class Singleton(type):
+  _instances = {}
+  def __call__(cls, *args, **kwargs):
+    if cls not in cls._instances:
+      cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+    return cls._instances[cls]
 
 class Stage( object ):
+  __metaclass__ = Singleton
   def __init__( self ):
-    pass
+    self._name = "Dev"
 
-class Development( Stage ):
-  def __init__( self ):
-    global name
-    super( Development, self ).__init__()
-    name = "Dev"
+  @property
+  def name( self ):
+    return self._name
 
-class Production( Stage ):
-  def __init__( self ):
-    global name
-    super( Production, self ).__init__()
-    name = "Prod"
+  def prod( self ):
+    self._name = "Prod"
 
-stage = Development()
+  def dev( self ):
+    self._name = "Dev"
 
-print name
+

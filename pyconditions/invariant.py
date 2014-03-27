@@ -3,9 +3,10 @@ from functools import wraps
 
 from .exceptions import PyCondition, PyConditionError
 
-import pyconditions.stage
+from.stage import Stage
 
 def wrap_method( func ):
+  stage = Stage()
   """
     Wraps a method so that each invariant is called with the 
     self argument.
@@ -14,7 +15,7 @@ def wrap_method( func ):
   def wrapper( *args, **kwargs ):
     ret = func( *args, **kwargs )
 
-    if( pyconditions.stage.name == "Dev" ):
+    if( stage.name == "Dev" ):
       for invariant in args[0].__invariant__:
         invariant.assertInvariant( args[0] )
 

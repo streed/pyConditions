@@ -1,22 +1,19 @@
 from functools import wraps
 from .exceptions import PyCondition, PyConditionError
 
-import pyconditions.stage
+from .stage import Stage
 
 class PostCondition( object ):
   def __call__( self, func ):
-    if( pyconditions.stage.name == "Dev" ):
-      self.name = "%s.%s" % ( func.__module__, func.__name__ )
-      @wraps( func )
-      def wrapper( *args, **kwargs ):
-        returnValue = func( *args, **kwargs )
+    stage = Stage()
+    self.name = "%s.%s" % ( func.__module__, func.__name__ )
+    @wraps( func )
+    def wrapper( *args, **kwargs ):
+      returnValue = func( *args, **kwargs )
+      if( stage.name == "Dev" ):
         self.assertCondition( returnValue )
-        return returnValue
-      wrapper._original_func = func
-    elif( pyconditions.stage.name == "Prod" ):
-      wrapper = func
-    else:
-      raise PyConditionError( "Invalid Stage: %s" % pyconditions.stage.name )
+      return returnValue
+    wrapper._original_func = func
 
     return wrapper
 
