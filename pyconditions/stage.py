@@ -5,8 +5,9 @@ class Singleton(type):
       cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
     return cls._instances[cls]
 
-class Stage( object ):
-  __metaclass__ = Singleton
+_STAGE = Singleton( "_STAGE", ( object, ), {} )
+
+class Stage( _STAGE ):
   def __init__( self ):
     self._name = "Dev"
 
