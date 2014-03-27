@@ -1,4 +1,4 @@
-pyConditions
+pyConditions 
 ===========================
 
 |Build Status|
@@ -112,7 +112,23 @@ Need a custom invariant?
        def __init__( self ):
                self.test = 1
        def method1( self ):
-               self.test = 2
+               self.test
+
+This is great but the conditions slow my code down a lot? No problem.
+
+.. code:: python
+
+    from pyconditions.stage import Stage
+
+    stage = Stage()
+    stage.prod()
+
+Just set that somewhere in your code and you’ll be fine. There is still
+some overhead, mainly there will be two function calls for each method,
+the wrapper and the original function. But, for stacked Preconditions
+and Invariants it will not execute into the other conditions and
+invraiants when *prod* is called. If you want to go back to *Dev* then
+call *dev()*.
 
 Have conditions you want added? Open a PR with code.
 
