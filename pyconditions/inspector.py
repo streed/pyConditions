@@ -68,3 +68,5 @@ class Gadget:
     
     return self._map
 
+  def gogoDoc( self ):
+    return self.func.__doc__

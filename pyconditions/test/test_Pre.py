@@ -62,7 +62,6 @@ class TestPre( unittest.TestCase ):
 
   def test_LessThan_works_correctly( self ):
 
-
     @LessThan( "b", 0 )
     def test( a, b ):
       return a / b
