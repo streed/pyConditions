@@ -41,3 +41,5 @@ class TestPost( unittest.TestCase ):
     self.assertRaises( PyCondition, stacked, [] )
     self.assertRaises( PyCondition, stacked, [ 3 ] )
     self.assertEquals( [ 2 ], stacked( [ 2 ] ) )
+
+    print stacked.__doc__
