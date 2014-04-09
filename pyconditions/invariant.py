@@ -3,7 +3,7 @@ from functools import wraps
 
 from .exceptions import PyCondition, PyConditionError
 
-from.stage import Stage
+from .stage import Stage
 
 def wrap_method( func ):
   stage = Stage()
