@@ -43,7 +43,7 @@ class PreCondition( object ):
     stage = Stage()
 
     if( not func.__doc__ ):
-      func.__doc__ = "Conditions:\n"
+      func.__doc__ = ""
 
     func.__doc__ += "  %s - %s\n" % ( self.name, self.__class__.__name__ )
 
