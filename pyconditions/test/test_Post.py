@@ -21,7 +21,6 @@ class TestPost( unittest.TestCase ):
 
     self.assertRaises( PyCondition, even, 3 )
     self.assertEquals( 2, even( 2 ) )
-    print even.__doc__
 
   def test_NotEmpty( self ):
 
