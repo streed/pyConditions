@@ -42,7 +42,8 @@ class PreCondition( object ):
     wrapper = func
     stage = Stage()
 
-    if( not func.__doc__ ):
+    if( not func.__doc__ and stage.name == "Dev" ):
+      doc = ""
       func.__doc__ = ""
 
     func.__doc__ += "  %s - %s\n" % ( self.name, self.__class__.__name__ )

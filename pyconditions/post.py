@@ -11,7 +11,7 @@ class PostCondition( object ):
 
     gadget = Gadget( func )
     doc = gadget.gogoDoc()
-    if( not doc ):
+    if( not doc and stage.name == "Dev" ):
       doc = ""
 
     doc += "%s - %s\n" % ( self.name, self.__class__.__name__ )
