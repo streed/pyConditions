@@ -1,6 +1,7 @@
 
-class PyCondition( Exception ):
-  pass
+class PyCondition(Exception):
+    pass
 
-class PyConditionError( Exception ):
-  pass
+
+class PyConditionError(Exception):
+    pass

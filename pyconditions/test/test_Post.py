@@ -3,41 +3,42 @@ import unittest
 from ..post import *
 from ..exceptions import PyCondition
 
-class TestPost( unittest.TestCase ):
 
-  def test_NotNone( self ):
+class TestPost(unittest.TestCase):
 
-    @NotNone()
-    def test():
-      return None
+    def test_NotNone(self):
 
-    self.assertRaises( PyCondition, test )
+        @NotNone()
+        def test():
+            return None
 
-  def test_Custom( self ):
+        self.assertRaises(PyCondition, test)
 
-    @Custom( lambda a: a % 2 == 0 )
-    def even( a ):
-      return a
+    def test_Custom(self):
 
-    self.assertRaises( PyCondition, even, 3 )
-    self.assertEquals( 2, even( 2 ) )
+        @Custom(lambda a: a % 2 == 0)
+        def even(a):
+            return a
 
-  def test_NotEmpty( self ):
+        self.assertRaises(PyCondition, even, 3)
+        self.assertEquals(2, even(2))
 
-    @NotEmpty()
-    def empty( a ):
-      return a
+    def test_NotEmpty(self):
 
-    self.assertRaises( PyCondition, empty, [] )
-    self.assertEquals( [ 1 ], empty( [ 1 ] ) )
+        @NotEmpty()
+        def empty(a):
+            return a
 
-  def test_decorators_stacked( self ):
-    
-    @Custom( lambda a: a[0] == 2 )
-    @NotEmpty()
-    def stacked( a ):
-      return a
+        self.assertRaises(PyCondition, empty, [])
+        self.assertEquals([1], empty([1]))
 
-    self.assertRaises( PyCondition, stacked, [] )
-    self.assertRaises( PyCondition, stacked, [ 3 ] )
-    self.assertEquals( [ 2 ], stacked( [ 2 ] ) )
+    def test_decorators_stacked(self):
+
+        @Custom(lambda a: a[0] == 2)
+        @NotEmpty()
+        def stacked(a):
+            return a
+
+        self.assertRaises(PyCondition, stacked, [])
+        self.assertRaises(PyCondition, stacked, [3])
+        self.assertEquals([2], stacked([2]))
